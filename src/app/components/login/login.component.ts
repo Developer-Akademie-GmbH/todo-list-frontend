@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,36 +9,25 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
-  constructor() { }
+  constructor(private as: AuthService) { }
 
   ngOnInit(): void {
   }
 
   async login() {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
 
-    const raw = JSON.stringify({
-      "username": this.username,
-      "password": this.password
-    });
-
-    const requestOptions: RequestInit = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
     try {
-      let resp = await fetch("http://localhost:8000/login/", requestOptions);
-      let json = await resp.json();
-      localStorage.setItem('token', json.token);
+      let resp = await this.as.loginWithUsernameAndPassword(this.username, this.password);
+      console.log(resp);
       // TODO: Redirect
-    } catch(e){
+    } catch (e) {
       // Show error message
       console.error(e);
-      
+
     }
   }
+
+
+
 
 }
