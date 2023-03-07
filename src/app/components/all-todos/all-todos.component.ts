@@ -16,7 +16,6 @@ export class AllTodosComponent implements OnInit {
   async ngOnInit() {
     try {
       this.todos = await this.loadTodos();
-      console.log(this.todos);
     } catch (e) {
       this.error = 'Fehler beim Laden!';
     }
@@ -24,11 +23,7 @@ export class AllTodosComponent implements OnInit {
 
   loadTodos() {
     const url = environment.baseUrl + '/todos/';
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Token ' + localStorage.getItem('token'))
-    return lastValueFrom(this.http.get(url, {
-      headers: headers 
-    }));
+    return lastValueFrom(this.http.get(url));
   }
 
 }

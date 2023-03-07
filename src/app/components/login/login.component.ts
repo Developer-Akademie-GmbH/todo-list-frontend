@@ -18,8 +18,9 @@ export class LoginComponent implements OnInit {
   async login() {
 
     try {
-      let resp = await this.as.loginWithUsernameAndPassword(this.username, this.password);
+      let resp:any = await this.as.loginWithUsernameAndPassword(this.username, this.password);
       console.log(resp);
+      localStorage.setItem('token', resp['token']);
       this.router.navigateByUrl('/todos');
     } catch (e) {
       alert('Login fehlgeschlagen!');
